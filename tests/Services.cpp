@@ -244,6 +244,7 @@ TEST_CASE("Attribute service set (highlevel)") {
     SUBCASE("Read default variable node attributes") {
         const NodeId id{1, "testAttributes"};
         services::addVariable(server, objectsId, id, "testAttributes").value();
+        const VariableAttributes defaultAttributes{};
 
         CHECK(services::readNodeId(server, id).value() == id);
         CHECK(services::readNodeClass(server, id).value() == NodeClass::Variable);
@@ -257,7 +258,10 @@ TEST_CASE("Attribute service set (highlevel)") {
         CHECK(services::readDataType(server, id).value() == NodeId(0, UA_NS0ID_BASEDATATYPE));
         CHECK(services::readValueRank(server, id).value() == ValueRank::Any);
         CHECK(services::readArrayDimensions(server, id).value().empty());
-        CHECK(services::readAccessLevel(server, id).value() == AccessLevel::CurrentRead);
+        // TODO:
+        // Do we want to take over the default values from open62541 or define dedicated default
+        // values in open62541pp?
+        CHECK(services::readAccessLevel(server, id).value() == defaultAttributes.getAccessLevel());
         const uint8_t adminUserAccessLevel = 0xFF;  // all bits set
         CHECK(services::readUserAccessLevel(server, id).value() == adminUserAccessLevel);
         CHECK(services::readMinimumSamplingInterval(server, id).value() == 0.0);
@@ -332,6 +336,12 @@ TEST_CASE("Attribute service set (highlevel)") {
         CHECK(services::writeHistorizing(server, id, true));
 
         // read new attributes
+        // TODO:
+        // From version 1.4 open62541 supports multiple display names & descriptions and returns a
+        // value matching the session's locale. If locale is not available, it will return the first
+        // value that had been set. Locale needs to be added to the session get the desired values
+        // back.
+#if UAPP_OPEN62541_VER_LE(1, 3)
         CHECK(
             services::readDisplayName(server, id).value() ==
             LocalizedText("en-US", "newDisplayName")
@@ -340,6 +350,7 @@ TEST_CASE("Attribute service set (highlevel)") {
             services::readDescription(server, id).value() ==
             LocalizedText("de-DE", "newDescription")
         );
+#endif
         CHECK(services::readWriteMask(server, id).value() == UA_WRITEMASK_EXECUTABLE);
         CHECK(services::readDataType(server, id).value() == NodeId(0, 2));
         CHECK(services::readValueRank(server, id).value() == ValueRank::TwoDimensions);
