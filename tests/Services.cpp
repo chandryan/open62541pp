@@ -346,11 +346,11 @@ TEST_CASE("Attribute service set (highlevel)") {
             services::readDisplayName(server, id).value() ==
             LocalizedText("en-US", "newDisplayName")
         );
+#endif
         CHECK(
             services::readDescription(server, id).value() ==
             LocalizedText("de-DE", "newDescription")
         );
-#endif
         CHECK(services::readWriteMask(server, id).value() == UA_WRITEMASK_EXECUTABLE);
         CHECK(services::readDataType(server, id).value() == NodeId(0, 2));
         CHECK(services::readValueRank(server, id).value() == ValueRank::TwoDimensions);
