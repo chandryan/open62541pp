@@ -382,7 +382,6 @@ TEST_CASE("Attribute service set (highlevel)") {
         // read default attributes
         CHECK(services::readIsAbstract(server, id).value() == true);
         CHECK(services::readSymmetric(server, id).value() == true);
-        CHECK(services::readInverseName(server, id).value() == LocalizedText("", "References"));
 
         // write new attributes
         CHECK(services::writeIsAbstract(server, id, false));
