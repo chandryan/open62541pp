@@ -21,6 +21,8 @@ TEST_CASE_TEMPLATE("MonitoredItem service set", T, Client, Async<Client>) {
     ServerClientSetup setup;
     setup.client.connect(setup.endpointUrl);
     auto& server = setup.server;
+    server.config()->samplingIntervalLimits.min = 0;
+    server.config()->publishingIntervalLimits.min = 1;
     auto& connection = setup.getInstance<T>();
 
     // add variable node to test data change notifications
@@ -270,11 +272,12 @@ TEST_CASE_TEMPLATE("MonitoredItem service set", T, Client, Async<Client>) {
         CHECK(response.addResults().size() == 1);
         CHECK(response.addResults()[0].isGood());
 
+        // std::this_thread::sleep_for(std::chrono::milliseconds(500));
         setup.client.runIterate();
-#if UAPP_OPEN62541_VER_LE(1, 3)
+        // #if UAPP_OPEN62541_VER_LE(1, 3)
         // TODO: fails with v1.4, why?
         CHECK(notificationCount > 0);
-#endif
+        // #endif
     }
 #endif
 

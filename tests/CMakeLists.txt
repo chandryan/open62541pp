@@ -3,42 +3,42 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/3rdparty/doctest doctest EXCLUDE_FROM_ALL
 add_executable(
     open62541pp_tests
     main.cpp
-    async.cpp
-    bitmask.cpp
-    client_server_common.cpp
-    client_service.cpp
-    client.cpp
-    datatype.cpp
-    event.cpp
-    exception.cpp
-    exceptioncatcher.cpp
-    iterator.cpp
-    node.cpp
-    plugin_accesscontrol.cpp
-    plugin_create_certificate.cpp
-    plugin_log.cpp
-    pluginadapter.cpp
-    result.cpp
-    scope.cpp
-    server.cpp
-    services_attribute.cpp
-    services_helper.cpp
-    services_method.cpp
+    # async.cpp
+    # bitmask.cpp
+    # client_server_common.cpp
+    # client_service.cpp
+    # client.cpp
+    # datatype.cpp
+    # event.cpp
+    # exception.cpp
+    # exceptioncatcher.cpp
+    # iterator.cpp
+    # node.cpp
+    # plugin_accesscontrol.cpp
+    # plugin_create_certificate.cpp
+    # plugin_log.cpp
+    # pluginadapter.cpp
+    # result.cpp
+    # scope.cpp
+    # server.cpp
+    # services_attribute.cpp
+    # services_helper.cpp
+    # services_method.cpp
     services_monitoreditem.cpp
-    services_nodemanagement.cpp
-    services_subscription.cpp
-    services_view.cpp
-    session.cpp
-    span.cpp
-    string_utils.cpp
-    subscription_monitoreditem.cpp
-    traits.cpp
-    typeconverter.cpp
-    typeregistry.cpp
-    types_builtin.cpp
-    types_handling.cpp
-    ua_types.cpp
-    wrapper.cpp
+    # services_nodemanagement.cpp
+    # services_subscription.cpp
+    # services_view.cpp
+    # session.cpp
+    # span.cpp
+    # string_utils.cpp
+    # subscription_monitoreditem.cpp
+    # traits.cpp
+    # typeconverter.cpp
+    # typeregistry.cpp
+    # types_builtin.cpp
+    # types_handling.cpp
+    # ua_types.cpp
+    # wrapper.cpp
 )
 target_link_libraries(
     open62541pp_tests

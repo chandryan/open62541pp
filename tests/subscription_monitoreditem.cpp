@@ -17,7 +17,10 @@ using namespace opcua;
 
 #ifdef UA_ENABLE_SUBSCRIPTIONS
 TEST_CASE("Subscription & MonitoredItem (server)") {
-    Server server;
+    ServerConfig config;
+    config->publishingIntervalLimits.min = 5000;
+    config->samplingIntervalLimits.min = 0;
+    Server server{std::move(config)};
 
     SUBCASE("Create Subscription with arbitrary id") {
         CHECK(Subscription(server, 11U).connection() == server);
@@ -126,10 +129,10 @@ TEST_CASE("Subscription & MonitoredItem (client)") {
 
         mon.setMonitoringMode(MonitoringMode::Reporting);  // now we should get a notification
         client.runIterate();
-#if UAPP_OPEN62541_VER_LE(1, 3)
+        // #if UAPP_OPEN62541_VER_LE(1, 3)
         // TODO: fails sporadically with v1.4, why?
         CHECK(notificationCount > 0);
-#endif
+        // #endif
 
         mon.deleteMonitoredItem();
         CHECK_THROWS_WITH(mon.deleteMonitoredItem(), "BadMonitoredItemIdInvalid");
